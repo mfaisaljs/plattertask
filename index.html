@@ -1,35 +1,42 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Best Sellers Grid</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&family=Bebas+Neue&family=Poppins:wght@500&display=swap" rel="stylesheet">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="styles.css">
-
-      </head>
-<body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Best Sellers Grid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&family=Bebas+Neue&family=Poppins:wght@500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-white text-gray-900 antialiased">
   <div class="min-h-screen px-5 py-12 md:px-12 lg:px-16">
     <header class="mb-10 flex items-center justify-between gap-4">
       <div class="space-y-2">
-        <p>Collection</p>
-        <h1>Best Sellers</h1>
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">Collection</p>
+        <h1 class="font-serif text-3xl font-bold leading-tight text-gray-900 md:text-4xl">Best Sellers</h1>
       </div>
-      <a href="#">Shop All Best Sellers →</a>
+      <a href="#" class="hidden items-center gap-2 text-sm font-semibold text-gray-900 transition duration-200 hover:translate-x-0.5 hover:text-gray-700 md:inline-flex">
+        Shop All Best Sellers
+        <span aria-hidden="true">→</span>
+      </a>
     </header>
 
     <main>
       <div class="relative space-y-12">
-        <section id="productGrid"></section>
+        <section id="productGrid" class="grid grid-cols-2 gap-4 pb-4 scroll-smooth md:scrollbar md:flex md:h-[519px] md:w-[1664px] md:max-w-full md:snap-x md:snap-mandatory md:gap-12 md:overflow-x-auto md:pb-4 md:pl-3 md:pr-3 lg:pl-6 lg:pr-6"></section>
       </div>
+
       <div class="mt-10 flex justify-center md:hidden">
-        <button id="showMoreBtn">Show More</button>
+        <button id="showMoreBtn" class="w-full max-w-xs rounded-full bg-black px-6 py-3 text-base font-semibold text-white transition duration-200 hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+          Show More
+        </button>
       </div>
     </main>
   </div>
+
   <script src="script.js" defer></script>
 </body>
 </html>
+

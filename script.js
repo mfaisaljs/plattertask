@@ -73,3 +73,108 @@ const products = [
       badge: 'Best Seller'
     }
   ];
+  
+  const grid = document.getElementById('productGrid');
+  const showMoreBtn = document.getElementById('showMoreBtn');
+  const supportsHover = window.matchMedia('(hover: hover)').matches;
+  
+  const starIcon = `<svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M10 1.5l2.472 5.008 5.528.804-4 3.896.944 5.51L10 13.75l-4.944 2.968.944-5.51-4-3.896 5.528-.804L10 1.5z"/></svg>`;
+  
+  function renderProducts() {
+    grid.innerHTML = '';
+    products.forEach((product, index) => {
+      const hiddenClass = index >= 4 ? 'hidden md:block' : '';
+      const promoBadge = index % 2 === 1 ? 'Save 15%' : null;
+      const badges = `
+        <div class="absolute left-3 right-3 top-3 flex items-center justify-between text-[11px] font-semibold uppercase tracking-wide text-gray-900">
+          ${product.badge ? `<span class="badge-default rounded-full px-2 py-1 shadow-sm">${product.badge}</span>` : '<span></span>'}
+          ${promoBadge ? `<span class="badge-promo rounded-full px-2 py-1 shadow-sm">${promoBadge}</span>` : '<span></span>'}
+        </div>
+      `;
+      const stars = `<div class="flex items-center gap-1 text-amber-500">${starIcon.repeat(5)}</div>`;
+      const card = document.createElement('article');
+      card.className = `product-card relative flex w-[165px] min-w-[165px] max-w-[165px] h-[260px] cursor-pointer flex-col rounded-[10px] bg-white pb-3 transition duration-300 hover:-translate-y-1 focus:outline-none ${hiddenClass} md:w-[355px] md:min-w-[355px] md:max-w-[355px] md:h-[467px] md:pb-4 md:snap-start`;
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', product.title);
+      card.innerHTML = `
+        <div class="relative h-[165px] w-[165px] overflow-hidden rounded-[10px] md:h-[355px] md:w-[355px]">
+          ${badges}
+          <img src="${product.primaryImage}" alt="${product.title}" class="primary-img h-full w-full object-cover transition-opacity duration-300 ease-in-out rounded-[10px]">
+          <img src="${product.secondaryImage}" alt="${product.title} alternate view" class="secondary-img absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 ease-in-out rounded-[10px]">
+        </div>
+        <div class="flex h-[80px] flex-col justify-between gap-2 p-3 md:p-4">
+          <div class="space-y-1">
+            <h3 class="font-[400] text-[14px] leading-tight text-gray-900 w-[149px] h-[22px] overflow-hidden whitespace-nowrap text-ellipsis uppercase tracking-[0.03em] md:text-[18px] md:w-[331px]" style="font-family: 'Bebas Neue', sans-serif;">${product.title}</h3>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-semibold leading-tight text-gray-900 w-[149px] h-[22px] overflow-hidden whitespace-nowrap text-ellipsis md:text-base md:w-[331px]">[Review Widget i.e Judgeme]</h3>
+          </div>
+          <div class="flex items-center justify-start text-sm text-gray-700">
+            <p class="text-[14px] font-[500] leading-[1] uppercase text-gray-900 md:text-[16px]" style="font-family: 'Poppins', sans-serif;">${product.price}</p>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+  
+  function setupHoverSwap() {
+    if (!supportsHover) return;
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+      const primary = card.querySelector('.primary-img');
+      const secondary = card.querySelector('.secondary-img');
+      card.addEventListener('mouseenter', () => {
+        primary.classList.add('opacity-0');
+        secondary.classList.remove('opacity-0');
+      });
+      card.addEventListener('mouseleave', () => {
+        primary.classList.remove('opacity-0');
+        secondary.classList.add('opacity-0');
+      });
+    });
+  }
+  
+  function setupShowMore() {
+    if (!showMoreBtn) return;
+    showMoreBtn.addEventListener('click', () => {
+      const hiddenCards = [...document.querySelectorAll('.product-card.hidden')];
+      hiddenCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.remove('hidden');
+          card.classList.add('animate-fadeIn');
+        }, index * 80);
+      });
+      showMoreBtn.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        showMoreBtn.style.display = 'none';
+      }, 250);
+    });
+  }
+  
+  function handleKeyboardHover() {
+    if (supportsHover) return;
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+      const primary = card.querySelector('.primary-img');
+      const secondary = card.querySelector('.secondary-img');
+      card.addEventListener('focus', () => {
+        primary.classList.add('opacity-0');
+        secondary.classList.remove('opacity-0');
+      });
+      card.addEventListener('blur', () => {
+        primary.classList.remove('opacity-0');
+        secondary.classList.add('opacity-0');
+      });
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    renderProducts();
+    setupHoverSwap();
+    setupShowMore();
+    handleKeyboardHover();
+  });
+  
+  
